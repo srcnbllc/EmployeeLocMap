@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personel Haritası - İstanbul</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <div id="map"></div>
+    <div id="personelInputs">
+        <h3>Personel Bilgileri</h3>
+        <input type="text" id="personelIsim" placeholder="Personel Adı" />
+        <input type="number" id="ikametEnlem" placeholder="İkametgah Enlemi" />
+        <input type="number" id="ikametBoylam" placeholder="İkametgah Boylamı" />
+        <input type="number" id="calismaEnlem" placeholder="Çalışma Adresi Enlemi" />
+        <input type="number" id="calismaBoylam" placeholder="Çalışma Adresi Boylamı" />
+        <button onclick="personelEkle()">Personel Ekle</button>
+        <button onclick="goster()">Göster</button>
+    </div>
+    <div id="personelListesi"></div>
+    <div id="mesafeListesi">
+        <h3>Mesafeler (km)</h3>
+        <ul id="mesafeUl"></ul>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
