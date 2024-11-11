@@ -1,45 +1,120 @@
-body {
-    font-family: Arial, sans-serif;
+/* Genel Stil */
+body, html {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-#map {
-    height: 500px;
+/* Container için düzenleme */
+#container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Sol Panel */
+#personelPanel {
+    width: 300px;
+    padding: 20px;
+    background-color: #f0f2f5;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Sol panelin sabit boyutta olmasını sağlar */
+}
+
+/* Personel Bilgileri */
+#personelListesi {
+    margin-top: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #0984e3;
+    color: white;
+}
+
+td {
+    font-size: 14px;
+}
+
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #e74c3c;
+}
+
+/* Butonları Yanyana Yerleştirme */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Butonlar */
+.btn {
+    background-color: #0d4067;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
     width: 100%;
 }
 
-#personelInputs {
-    padding: 10px;
-    background-color: #f9f9f9;
+.btn:hover {
+    background-color: #7476ff;
 }
 
-#personelListesi {
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-top: 10px;
+/* Harita Konteyneri */
+#mapContainer {
+    flex: 1;
+    position: relative;
+    display: flexbox; /* Harita başlangıçta görünmesin */
+    overflow: auto;
+    flex-shrink: 0
 }
 
-#mesafeListesi {
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-top: 10px;
+/* Harita */
+#map {
+    width: 100%;
+    height: 100%;
 }
 
-.personelItem {
-    margin: 5px 0;
+/* Gösterilen Mesafe Bilgileri */
+/* Harita üzerine mesafe bilgisini göstermek için */
+.mesafe-label {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #000;
+    text-align: center;
 }
 
-/* Mesafe label stili */
-.isim-label, .mesafe-label {
-    background-color: rgba(255, 255, 255, 0.8); /* Arka plan rengi */
-    padding: 2px 5px; /* İç boşluk */
-    border-radius: 3px; /* Köşeleri yuvarlama */
-    border: 1px solid #ccc; /* Sınır */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Hafif gölge */
-    text-align: center; /* Metni ortala */
-    font-family: Arial, sans-serif; /* Yazı tipi */
+.mesafe-icon {
+    background-color: transparent;
+    border: none;
 }
-
