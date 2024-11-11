@@ -4,6 +4,10 @@ Employee Location Distance Calculator
 
 This project allows you to calculate and display the distance between the residence and workplace addresses of employees on an interactive map. Users can enter location coordinates for each employee, and the map displays each address in unique colors with distance information along the lines.
 
+Employee: Refers to the employees in an organization.
+Loc: Short for "location," suggesting a focus on the physical location or specific position of employees.
+Map: Likely refers to a visual or data representation of employee locations, possibly on a geographic map or in a spatial arrangement (e.g., within an office layout).
+
 ## Features
 
 - Input fields for entering the coordinates (latitude and longitude) of residence and workplace addresses for each employee
