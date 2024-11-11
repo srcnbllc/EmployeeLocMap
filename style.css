@@ -22,7 +22,7 @@ body, html {
     background-color: #f0f2f5;
     overflow-y: auto;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    flex-shrink: 0; /* Sol panelin sabit boyutta olmasını sağlar */
+    flex-shrink: 0;
 }
 
 /* Personel Bilgileri */
@@ -92,9 +92,8 @@ button:hover {
 #mapContainer {
     flex: 1;
     position: relative;
-    display: flexbox; /* Harita başlangıçta görünmesin */
-    overflow: auto;
-    flex-shrink: 0
+    display: block;  /* 'flexbox' yerine 'block' olarak değiştirildi */
+    height: 100%;
 }
 
 /* Harita */
@@ -104,7 +103,6 @@ button:hover {
 }
 
 /* Gösterilen Mesafe Bilgileri */
-/* Harita üzerine mesafe bilgisini göstermek için */
 .mesafe-label {
     background-color: rgba(255, 255, 255, 0.7);
     padding: 5px;
