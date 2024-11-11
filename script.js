@@ -1,3 +1,4 @@
+// Harita başlangıç ayarları
 var map = L.map("map").setView([41.015137, 28.97953], 10); // İstanbul
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -6,6 +7,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 var personelKoordinatlari = [];
 
+// Personel ekleme fonksiyonu
 function personelEkle() {
     var isim = document.getElementById("personelIsim").value;
     var ikametEnlem = parseFloat(document.getElementById("ikametEnlem").value);
@@ -25,7 +27,15 @@ function personelEkle() {
     };
 
     personelKoordinatlari.push(personel);
-    document.getElementById("personelListesi").innerHTML += `<div class="personelItem">${isim} <button onclick="sil('${isim}')">Sil</button></div>`;
+
+    // Personel listesini güncelle
+    var tableBody = document.getElementById("personelTableBody");
+    var row = document.createElement('tr');
+    var mesafe = map.distance(L.latLng(personel.ikamet), L.latLng(personel.calisma)) / 1000; // km cinsinden
+    row.innerHTML = `<td>${personel.isim}</td>
+                     <td>${mesafe.toFixed(2)} km</td>
+                     <td><button onclick="personelSil(${personelKoordinatlari.length - 1})">Sil</button></td>`;
+    tableBody.appendChild(row);
 
     // Formu temizle
     document.getElementById("personelIsim").value = '';
@@ -35,21 +45,55 @@ function personelEkle() {
     document.getElementById("calismaBoylam").value = '';
 }
 
+function mesafeBilgisi(ortaNokta, mesafe) {
+    // Harita üzerinde gösterilecek mesafe bilgisini içeren div
+    var mesafeLabel = document.createElement("div");
+    mesafeLabel.classList.add("mesafe-label");
+    mesafeLabel.innerHTML = `${mesafe.toFixed(2)} km`;
+
+    // Harita üzerindeki koordinatları piksel koordinatına çevir
+    var latLng = ortaNokta; // Koordinat zaten latLng formatında olduğundan dönüşüme gerek yok
+
+    // Mesafe etiketini bir divIcon olarak harita üzerine ekle
+    var mesafeIcon = L.divIcon({
+        className: 'mesafe-icon',
+        html: mesafeLabel.outerHTML,  // HTML içeriğini buraya ekliyoruz
+        iconSize: [100, 30],  // Mesafe etiketinin boyutlarını ayarlayın
+    });
+
+    // Mesafe bilgisini gösteren bir marker ekleyin
+    var marker = L.marker(latLng, { icon: mesafeIcon }).addTo(map);
+}
+
+    // Konumu çizginin biraz üstüne yerleştir
+    mesafeLabel.style.position = "absolute";
+    mesafeLabel.style.left = `${latLng.x}px`;
+    mesafeLabel.style.top = `${latLng.y - 25}px`;  // Çizginin biraz üstüne yerleştiriyoruz (25px yukarı)
+
+    // Mesafe bilgisini harita üzerine ekle
+    document.getElementById("map").appendChild(mesafeLabel);
+
+
+// Gösterme ve harita üzerine ekleme işlemi
 function goster() {
     // Haritayı temizle
     map.eachLayer(function (layer) {
-        if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+        if (layer instanceof L.Marker || layer instanceof L.Polyline || layer instanceof L.Popup) {
             map.removeLayer(layer);
         }
     });
 
-    // Mesafe listesini temizle
-    document.getElementById("mesafeUl").innerHTML = '';
+    var bounds = [];
 
+    // Personel listesine güncellenmiş veriyi ekle
     personelKoordinatlari.forEach(function (personel, index) {
+        // İkametgah ve Çalışma adresini haritada göster
+        var ikametMarker = L.marker(personel.ikamet).addTo(map).bindPopup(personel.isim + ' (İkametgah)');
+        var calismaMarker = L.marker(personel.calisma).addTo(map).bindPopup(personel.isim + ' (Çalışma Adresi)');
+
         // Renkler için bir dizi oluştur
         var renkler = ['red', 'blue', 'green', 'purple', 'orange', 'brown', 'pink', 'gray', 'cyan', 'magenta'];
-        var renk = renkler[index % renkler.length]; // Her bir personel için farklı renk
+        var renk = renkler[index % renkler.length];
 
         // Çizgiyi ekle
         var polyline = L.polyline([personel.ikamet, personel.calisma], {
@@ -60,42 +104,30 @@ function goster() {
 
         // Mesafeyi hesapla
         var mesafe = map.distance(L.latLng(personel.ikamet), L.latLng(personel.calisma)) / 1000; // km cinsinden
-
-        // İkametgah adresinin üstünde personel ismini göster
-        var ikametIcon = L.divIcon({
-            html: `<div style="font-size: 14px; color: ${renk}; font-weight: bold;">${personel.isim}</div>`,
-            className: 'isim-label',
-            iconAnchor: [0, 0], // Konum üzerinde hizalama
-        });
-        L.marker(personel.ikamet, { icon: ikametIcon }).addTo(map);
-
-        // Mesafeyi çizginin biraz üstünde göstermek için orta nokta biraz yukarı kaydırıldı
         var ortaNokta = [
-            (personel.ikamet[0] + personel.calisma[0]) / 2 + 0.002, // 0.002 enlem değeri ile hafif yukarı kaydırılır
+            (personel.ikamet[0] + personel.calisma[0]) / 2,
             (personel.ikamet[1] + personel.calisma[1]) / 2,
         ];
 
-        // Mesafe bilgisini sabit siyah renkli olarak göster
-        var mesafeIcon = L.divIcon({
-            html: `<div style="font-size: 14px; color: black;">${mesafe.toFixed(2)} km</div>`,
-            className: 'mesafe-label',
-            iconAnchor: [0, 0], // Konum üzerinde hizalama
-        });
-        L.marker(ortaNokta, { icon: mesafeIcon }).addTo(map);
+        // Mesafeyi çizgi ortasında sabit olarak göster
+        mesafeBilgisi(ortaNokta, mesafe);
 
-        // Mesafeyi listeye ekle
-        var mesafeItem = document.createElement('li');
-        mesafeItem.textContent = `${personel.isim}: ${mesafe.toFixed(2)} km`;
-        document.getElementById("mesafeUl").appendChild(mesafeItem);
+        // Harita sınırlarını ayarlamak için koordinatları bir arada tut
+        bounds.push(personel.ikamet, personel.calisma);
     });
+
+    // Haritayı zoomlayarak tüm konumları göster
+    map.fitBounds(bounds);
+
+    // Haritayı görüntülenebilir yap
+    document.getElementById("mapContainer").style.display = "block";
 }
 
-function sil(isim) {
-    personelKoordinatlari = personelKoordinatlari.filter(function(personel) {
-        return personel.isim !== isim;
-    });
-    document.getElementById("personelListesi").innerHTML = '';
-    personelKoordinatlari.forEach(function(personel) {
-        document.getElementById("personelListesi").innerHTML += `<div class="personelItem">${personel.isim} <button onclick="sil('${personel.isim}')">Sil</button></div>`;
-    });
+// Personel silme fonksiyonu
+function personelSil(index) {
+    personelKoordinatlari.splice(index, 1);
+    goster(); // Listeyi güncelle
 }
+map.on('moveend', function() {
+    marker.setLatLng(ortaNokta);  // Harita hareket ettiğinde mesafe etiketini güncelle
+});
