@@ -35,13 +35,6 @@ To run this project locally, follow these steps:
 4. The distance (in kilometers) between the residence and workplace will appear above the line in a consistent color for clarity.
 5. Click the `Delete` button next to an employee's name to remove them from the map.
 
-## Deployment
-
-To deploy this project online, consider using GitHub Pages, Netlify, or Vercel:
-
-- **GitHub Pages**: Upload the project to a GitHub repository, configure the Pages settings, and publish it as a static site.
-- **Netlify / Vercel**: Sign up on Netlify or Vercel, upload the project from a Git repository, and it will be automatically published.
-
 ## Contributing
 
 Contributions to improve this project are welcome. Please feel free to fork the repository, make changes, and submit pull requests.
