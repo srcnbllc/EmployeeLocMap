@@ -19,61 +19,39 @@ body, html {
 #personelPanel {
     width: 300px;
     padding: 20px;
-    background-color: #f0f2f5;
+    background-color: #f7f9fc;
     overflow-y: auto;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     flex-shrink: 0;
+    border-right: 1px solid #e0e0e0;
 }
 
-/* Personel Bilgileri */
-#personelListesi {
-    margin-top: 15px;
+#personelPanel h3 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
-table {
+#personelPanel input {
     width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #0984e3;
-    color: white;
-}
-
-td {
-    font-size: 14px;
-}
-
-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 12px;
-    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-button:hover {
-    background-color: #e74c3c;
-}
-
-/* Butonları Yanyana Yerleştirme */
 .button-container {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
-/* Butonlar */
 .btn {
-    background-color: #0d4067;
+    flex: 1;
+    margin: 5px 0;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -81,19 +59,20 @@ button:hover {
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    width: 100%;
+    transition: background-color 0.3s;
 }
 
 .btn:hover {
-    background-color: #7476ff;
+    background-color: #0056b3;
 }
 
 /* Harita Konteyneri */
 #mapContainer {
     flex: 1;
     position: relative;
-    display: block;  /* 'flexbox' yerine 'block' olarak değiştirildi */
-    height: 100%;
+    display: flex;
+    overflow: auto;
+    flex-shrink: 0;
 }
 
 /* Harita */
@@ -115,4 +94,13 @@ button:hover {
 .mesafe-icon {
     background-color: transparent;
     border: none;
+}
+
+.distance-tooltip {
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: black;
 }
